@@ -1,0 +1,9 @@
+name: python_analyze
+channels:
+  - conda-forge
+dependencies:
+  - python=3
+  - numpy
+  - pandas
+  - scipy
+  - biopython

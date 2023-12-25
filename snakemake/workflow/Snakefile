@@ -1,0 +1,67 @@
+"""
+This simplified Snakefile only
+generates data for intron lengths
+and genome sizes (no repeats)
+"""
+
+import os
+import sys
+import ftputil
+import pandas as pd
+from scipy import stats
+
+out_dir = config['out_dir']
+logs_dir = os.path.join(out_dir, 'logs')
+envs_dir = os.path.join(workflow.basedir, 'envs')
+scripts_dir = os.path.join(workflow.basedir, 'scripts')
+if '--configfile' in sys.argv:
+    i = sys.argv.index('--configfile')
+elif '--configfiles' in sys.argv:
+    i = sys.argv.index('--configfiles')
+conf_path = sys.argv[i+1]
+
+species_df = pd.read_csv(config['species_tsv'], sep='\t', index_col=0, comment='#')
+species_list = list(species_df.index)
+features = ['intron_counts', 'intron_fractions', 'intron_lengths']
+#classes = list(species_df['class'].dropna().unique())
+classes = ['Actinopteri']
+#Actinopteri  Arachnida  Aves  Insecta  Lepidosauria  Magnoliopsida  Mammalia  Sordariomycetes
+
+lineage = config['BUSCO_lineage']
+busco_lineages_ftp = 'https://busco-data.ezlab.org/v5/data'
+with open(config['BUSCO_list']) as f:
+    busco_list = [l.strip() for l in f.readlines()]
+
+localrules: all
+
+rules_dir = os.path.join(workflow.basedir, 'rules')
+
+include: os.path.join(rules_dir, 'download_annotation.smk')
+include: os.path.join(rules_dir, 'remove_alt_splicing.smk')
+include: os.path.join(rules_dir, 'add_introns.smk')
+include: os.path.join(rules_dir, 'analyze_intron_lengths.smk')
+include: os.path.join(rules_dir, 'calculate_genome_size_from_gff3.smk')
+include: os.path.join(rules_dir, 'collect_intron_length_stats.smk')
+include: os.path.join(rules_dir, 'calculate_distance_matrix.smk')
+include: os.path.join(rules_dir, 'protein_BUSCO.smk')
+include: os.path.join(rules_dir, 'collect_BUSCO_stats.smk')
+include: os.path.join(rules_dir, 'create_class_species_list.smk')
+include: os.path.join(rules_dir, 'collect_class_BUSCO_sequences.smk')
+include: os.path.join(rules_dir, 'BUSCO_MSA.smk')
+include: os.path.join(rules_dir, 'infer_BUSCO_tree.smk')
+include: os.path.join(rules_dir, 'calculate_change.smk')
+include: os.path.join(rules_dir, 'collect_change_stats.smk')
+include: os.path.join(rules_dir, 'infer_distance_tree.smk')
+
+
+rule all:
+    input:
+        os.path.join(out_dir, 'all_species', 'intron_lengths.stats'),
+        expand(os.path.join(out_dir, 'all_species', '{feature}_KS_dist.tsv'), feature=features),
+        expand(os.path.join(out_dir, 'all_species', 'BUSCO_{feature}.stats'), feature=['total_intron_len','n_introns','intron_frac','total_exon_len','intron_lens', 'protein_len']),
+        expand(os.path.join(out_dir, 'all_species', '{class_}_change.tsv'), class_=classes),
+        expand(os.path.join(out_dir, 'all_species', '{feature}_KS_dist.nwk'), feature=features)
+
+for r in workflow.rules:
+    r.set_params(queue=config["queue"])
+    r.set_params(priority=config["priority"])

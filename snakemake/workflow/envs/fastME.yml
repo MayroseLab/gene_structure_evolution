@@ -1,0 +1,5 @@
+name: fastME
+channels:
+  - bioconda
+dependencies:
+  - fastme=2.1.6.1

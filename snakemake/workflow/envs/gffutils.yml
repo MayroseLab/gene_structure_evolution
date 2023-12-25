@@ -1,0 +1,9 @@
+name: gffutils
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3
+  - numpy
+  - pandas
+  - gffutils

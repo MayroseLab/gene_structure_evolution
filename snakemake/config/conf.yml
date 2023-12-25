@@ -1,0 +1,9 @@
+out_dir: 
+species_tsv:
+
+flank_size: 10000
+
+repeat_types: Low_complexity_regions, LTRs, RNA_repeats, Satellite_repeats, Simple_repeats, Tandem_repeats, Type_II_Transposons, Type_I_Transposons_LINE, Type_I_Transposons_SINE, Unknown
+
+queue: 
+priority: 0
