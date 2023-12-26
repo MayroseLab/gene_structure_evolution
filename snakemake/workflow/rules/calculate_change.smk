@@ -17,7 +17,7 @@ rule calculate_change:
     params:
         calculate_change_script = os.path.join(scripts_dir, 'calculate_change.R')
     conda:
-        'RRphylo'
+        'gene_structure_evolution'
     resources:
         mem_mb = 32000
     shell:
