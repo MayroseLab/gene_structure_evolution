@@ -2,4 +2,4 @@ name: genomeTools
 channels:
   - bioconda
 dependencies:
-  - genometools-genometools
+  - genometools-genometools=1.6.5

@@ -2,4 +2,4 @@ name: mafft
 channels:
   - bioconda
 dependencies:
-  - mafft
+  - mafft=7.520

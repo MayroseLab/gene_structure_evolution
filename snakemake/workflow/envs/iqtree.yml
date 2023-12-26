@@ -2,4 +2,4 @@ name: iqtree
 channels:
   - bioconda
 dependencies:
-  - iqtree
+  - iqtree=2.2.6

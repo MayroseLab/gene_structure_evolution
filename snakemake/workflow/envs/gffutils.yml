@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - python=3
-  - numpy
-  - pandas
-  - gffutils
+  - python=3.10
+  - numpy=1.26.2
+  - pandas=2.1.4
+  - gffutils=0.12
