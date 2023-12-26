@@ -35,7 +35,7 @@ rule extract_canonical_proteins:
     log:
         os.path.join(logs_dir, 'remove_alt_splicing', '{species}.extract_canonical_proteins.log')
     conda:
-        os.path.join(envs_dir, 'biopython.yml')
+        os.path.join(envs_dir, 'python_analyze.yml')
     params:
         filter_fasta_script = os.path.join(scripts_dir, 'filter_fasta_by_id.py')
     shell:
