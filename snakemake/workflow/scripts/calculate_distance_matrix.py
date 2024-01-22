@@ -9,6 +9,7 @@ the distance metric.
 import sys
 import os
 from itertools import combinations
+import numpy as np
 import pandas as pd
 from scipy import stats
 
@@ -58,8 +59,10 @@ def get_stats(gff_df):
   trans_len.name = 'transcript_length'
   intron_len_per_trans = pd.concat([intron_len_per_trans, trans_len], axis=1)
   intron_len_per_trans['intron_fraction'] = intron_len_per_trans['length']/intron_len_per_trans['transcript_length']
+  intron_len_per_trans['exons_length'] = intron_len_per_trans['transcript_length'] - intron_len_per_trans['length']
+  intron_len_per_trans['intron_ratio'] = intron_len_per_trans['length']/intron_len_per_trans['exons_length']
 
-  return {'intron_lengths': intron_lengths, 'intron_counts': introns_per_trans, 'intron_fractions': intron_len_per_trans['intron_fraction']}
+  return {'intron_lengths': intron_lengths, 'intron_counts': introns_per_trans, 'intron_fractions': intron_len_per_trans['intron_fraction'], 'intron_ratios': intron_len_per_trans['intron_ratio']}
 
 if __name__ == "__main__":
 
@@ -75,7 +78,7 @@ if __name__ == "__main__":
     stat_vectors[sp] = get_stats(gff_df)
 
   print('Calculating pairwise distances...')
-  stat_names = ['intron_lengths', 'intron_counts', 'intron_fractions']
+  stat_names = ['intron_lengths', 'intron_counts', 'intron_fractions', 'intron_ratios']
   for st in stat_names:
     print('STAT: %s' % st)
     out_matrix = os.path.join(out_dir, st+'_KS_dist.tsv')
@@ -83,6 +86,7 @@ if __name__ == "__main__":
     for pair in combinations(stat_vectors.keys(),2):
       sp1, sp2 = pair
       print(sp1, sp2)
+      sp1_st_vector = stat_vectors[sp1][st].replace([np.inf, -np.inf], np.nan).dropna()
       ks = stats.kstest(stat_vectors[sp1][st], stat_vectors[sp2][st]).statistic
       res = pd.Series([sp1,sp2,ks])
       ks_similarity.append(res)
