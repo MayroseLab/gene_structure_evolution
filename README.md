@@ -37,7 +37,7 @@ snakemake -s $snakefile --configfile gene_structure_evolution/snakemake/config/c
 ### 4. Option 2: Download the snakemake workflow result
 If you don't want to run the workflow yourself, you can just download a pre-prepared result:
 ```
-wget
+wget <DRYAD URL>
 tar -zxvf RESULT.tar.gz
 ```
 ### 5. Run the jupyter notebooks
@@ -48,4 +48,4 @@ cd gene_structure_evolution
 conda activate gene_structure_evolution
 ```
 Next, you need to start the jupyter server. The basic command is `jupyter lab`, howevr it may change depending on your computing environment. For example, if you are accessing the jupyter server on a remote machine, you may need to use some form of port-forwarding (see e.g. [here](https://ljvmiranda921.github.io/notebook/2018/01/31/running-a-jupyter-notebook/)).  
-Once you have the server running, access it with a web browser. Navigate to `notebooks/`, and run them: first run `notebook1.R.ipynb`, then `notebook2.py.ipynb`.
+Once you have the server running, access it with a web browser. Navigate to `notebooks/`, and run first `notebook1.R.ipynb`, then `notebook2.py.ipynb`. In each of them, you'll need to set the value of the variable `snakemake_result_dir` to the path of your Snakemake result.
