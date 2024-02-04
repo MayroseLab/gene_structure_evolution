@@ -37,7 +37,7 @@ snakemake -s $snakefile --configfile gene_structure_evolution/snakemake/config/c
 ### 4. Option 2: Download the snakemake workflow result
 If you don't want to run the workflow yourself, you can just download a pre-prepared result:
 ```
-wget <DRYAD URL>
+wget https://datadryad.org/stash/downloads/file_stream/2894646
 tar -zxvf RESULT.tar.gz
 ```
 ### 5. Run the jupyter notebooks
