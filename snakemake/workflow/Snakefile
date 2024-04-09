@@ -22,10 +22,8 @@ conf_path = sys.argv[i+1]
 
 species_df = pd.read_csv(config['species_tsv'], sep='\t', index_col=0, comment='#')
 species_list = list(species_df.index)
-features = ['intron_counts', 'intron_fractions', 'intron_lengths']
-#classes = list(species_df['class'].dropna().unique())
-classes = ['Actinopteri']
-#Actinopteri  Arachnida  Aves  Insecta  Lepidosauria  Magnoliopsida  Mammalia  Sordariomycetes
+features = ['intron_counts', 'intron_fractions', 'intron_ratios', 'intron_lengths']
+classes = list(species_df['class'].dropna().unique())
 
 lineage = config['BUSCO_lineage']
 busco_lineages_ftp = 'https://busco-data.ezlab.org/v5/data'
@@ -58,7 +56,7 @@ rule all:
     input:
         os.path.join(out_dir, 'all_species', 'intron_lengths.stats'),
         expand(os.path.join(out_dir, 'all_species', '{feature}_KS_dist.tsv'), feature=features),
-        expand(os.path.join(out_dir, 'all_species', 'BUSCO_{feature}.stats'), feature=['total_intron_len','n_introns','intron_frac','total_exon_len','intron_lens', 'protein_len']),
+        expand(os.path.join(out_dir, 'all_species', 'BUSCO_{feature}.stats'), feature=['total_intron_len','n_introns','intron_frac', 'intron_ratio','total_exon_len','intron_lens', 'protein_len']),
         expand(os.path.join(out_dir, 'all_species', '{class_}_change.tsv'), class_=classes),
         expand(os.path.join(out_dir, 'all_species', '{feature}_KS_dist.nwk'), feature=features)
 
