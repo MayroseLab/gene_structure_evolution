@@ -1,6 +1,6 @@
 # Gene structure evolution
-This repository contains code for research reproducibility purposes, related to the manuscript "The evolution of protein-coding gene structure in eukaryotes", currently under revision.  
-The code is not intended aa a standalone tool and it was not throughly tested. Feel free to use it at your own risk.
+This repository contains code for research reproducibility purposes, related to the manuscript "Phylogenetic Analysis of 590 Species Reveals Distinctive Evolutionary Patterns of Intron-Exon Gene Structures Across Eukaryotic Lineages" by Glick et al..  
+The code is not intended aa a standalone tool and it was not thoroughly tested. Feel free to use it at your own risk.
 ## To reproduce the analyses in the manuscript:
 ### 1. Environment setup
 You'll need a Unix machine, with git available. You'll also need to setup conda or (preferebly) mamba for environment management. See [here](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html) for installation instructions and make sure you can create and activate environments from the command line before proceeding.
